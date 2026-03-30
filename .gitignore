@@ -3,3 +3,7 @@ node_modules/
 dist/
 build/
 .DS_Store
+
+# Legacy Backend & Static Files (Archived)
+backend/
+legacy/

@@ -64,18 +64,18 @@ const Hero = ({ cvUrl, siteData }) => {
     };
 
     const defaultSocials = [
-        { icon: <Github size={18} />, href: 'https://github.com', label: 'GitHub' },
-        { icon: <Linkedin size={18} />, href: 'https://linkedin.com', label: 'LinkedIn' },
-        { icon: <Mail size={18} />, href: 'mailto:abdulahad@example.com', label: 'Email' },
+        { icon: <Github size={18} />, href: 'https://github.com/Abdulahad-web-dev', label: 'GitHub' },
+        { icon: <Linkedin size={18} />, href: 'https://www.linkedin.com/in/abdulahad-warraich-b74499361?utm_source=share_via&utm_content=profile&utm_medium=member_android', label: 'LinkedIn' },
+        { icon: <Mail size={18} />, href: 'mailto:abdulahadwarraich.web@gmail.com', label: 'Email' },
     ];
 
     const socials = siteData ? [
-        { icon: <Github size={18} />, href: siteData.github_url || 'https://github.com', label: 'GitHub' },
-        { icon: <Linkedin size={18} />, href: siteData.linkedin_url || 'https://linkedin.com', label: 'LinkedIn' },
+        { icon: <Github size={18} />, href: siteData.github_url || 'https://github.com/Abdulahad-web-dev', label: 'GitHub' },
+        { icon: <Linkedin size={18} />, href: siteData.linkedin_url || 'https://www.linkedin.com/in/abdulahad-warraich-b74499361?utm_source=share_via&utm_content=profile&utm_medium=member_android', label: 'LinkedIn' },
         { icon: <Mail size={18} />, href: `mailto:${siteData.email || 'abdulahadwarraich.web@gmail.com'}`, label: 'Email' },
     ] : [
-        { icon: <Github size={18} />, href: 'https://github.com', label: 'GitHub' },
-        { icon: <Linkedin size={18} />, href: 'https://linkedin.com', label: 'LinkedIn' },
+        { icon: <Github size={18} />, href: 'https://github.com/Abdulahad-web-dev', label: 'GitHub' },
+        { icon: <Linkedin size={18} />, href: 'https://www.linkedin.com/in/abdulahad-warraich-b74499361?utm_source=share_via&utm_content=profile&utm_medium=member_android', label: 'LinkedIn' },
         { icon: <Mail size={18} />, href: 'mailto:abdulahadwarraich.web@gmail.com', label: 'Email' },
     ];
 
@@ -178,7 +178,7 @@ const Hero = ({ cvUrl, siteData }) => {
                             transition={{ duration: 0.5, delay: 0.65 }}
                             className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 mb-8"
                         >
-                            <a href={cvUrl || "/resume.pdf"} target="_blank" rel="noopener noreferrer">
+                            <a href={cvUrl || "/resume.pdf"} target="_blank" rel="noopener noreferrer" download="Resume.pdf">
                                 <button
                                     className="flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-white text-sm transition-all duration-300"
                                     style={{
@@ -195,7 +195,7 @@ const Hero = ({ cvUrl, siteData }) => {
                                     }}
                                 >
                                     <Download size={16} />
-                                    View My Work
+                                    Download Resume
                                 </button>
                             </a>
                             <a href="#contact">
@@ -221,42 +221,48 @@ const Hero = ({ cvUrl, siteData }) => {
                             </a>
                         </motion.div>
 
-                        {/* Social icons */}
+                        {/* Social Links - Properly Visible Header */}
                         <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: 0.8 }}
-                            className="flex items-center justify-center md:justify-start gap-4"
+                            className="flex flex-wrap items-center justify-center md:justify-start gap-4"
                         >
-                            {socials.map((social) => (
-                                <a
-                                    key={social.label}
-                                    href={social.href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    aria-label={social.label}
-                                    className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300"
-                                    style={{
-                                        background: 'rgba(139,92,246,0.08)',
-                                        border: '1px solid rgba(139,92,246,0.2)',
-                                        color: '#8B8BAA',
-                                    }}
-                                    onMouseEnter={e => {
-                                        e.currentTarget.style.background = 'rgba(139,92,246,0.2)';
-                                        e.currentTarget.style.color = '#A78BFA';
-                                        e.currentTarget.style.transform = 'translateY(-3px)';
-                                        e.currentTarget.style.boxShadow = '0 0 15px rgba(139,92,246,0.3)';
-                                    }}
-                                    onMouseLeave={e => {
-                                        e.currentTarget.style.background = 'rgba(139,92,246,0.08)';
-                                        e.currentTarget.style.color = '#8B8BAA';
-                                        e.currentTarget.style.transform = 'translateY(0)';
-                                        e.currentTarget.style.boxShadow = 'none';
-                                    }}
-                                >
-                                    {social.icon}
-                                </a>
-                            ))}
+                            <p className="text-xs uppercase tracking-widest font-bold w-full md:w-auto mb-2 md:mb-0" style={{ color: '#8B5CF6' }}>
+                                Find Me Online 
+                            </p>
+                            <div className="flex gap-4">
+                                {socials.map((social) => (
+                                    <a
+                                        key={social.label}
+                                        href={social.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-300"
+                                        style={{
+                                            background: 'rgba(139,92,246,0.1)',
+                                            border: '1px solid rgba(139,92,246,0.3)',
+                                            color: '#A78BFA',
+                                            boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                                        }}
+                                        onMouseEnter={e => {
+                                            e.currentTarget.style.background = 'rgba(139,92,246,0.2)';
+                                            e.currentTarget.style.transform = 'translateY(-3px)';
+                                            e.currentTarget.style.boxShadow = '0 8px 30px rgba(139,92,246,0.4)';
+                                            e.currentTarget.style.borderColor = '#8B5CF6';
+                                        }}
+                                        onMouseLeave={e => {
+                                            e.currentTarget.style.background = 'rgba(139,92,246,0.1)';
+                                            e.currentTarget.style.transform = 'translateY(0)';
+                                            e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
+                                            e.currentTarget.style.borderColor = 'rgba(139,92,246,0.3)';
+                                        }}
+                                    >
+                                        <span className="text-lg">{social.icon}</span>
+                                        <span className="text-sm font-bold uppercase tracking-tight">{social.label}</span>
+                                    </a>
+                                ))}
+                            </div>
                         </motion.div>
                     </motion.div>
 

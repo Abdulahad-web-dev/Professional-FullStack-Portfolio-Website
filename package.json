@@ -1,5 +1,15 @@
 {
-  "dependencies": {
-    "three": "^0.183.2"
+  "name": "portfolio-monorepo",
+  "private": true,
+  "workspaces": [
+    "portfolio"
+  ],
+  "scripts": {
+    "install:all": "npm install",
+    "dev": "npm run dev --workspace=portfolio",
+    "build": "npm run build --workspace=portfolio"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
   }
 }

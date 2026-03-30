@@ -9,7 +9,7 @@ const AnimatedCounter = ({ value, duration = 2, delay = 0 }) => {
 
     useEffect(() => {
         if (isInView) {
-            setTimeout(() => {
+            const timeoutId = setTimeout(() => {
                 const controls = animate(0, value, {
                     duration,
                     ease: "easeOut",
@@ -17,34 +17,12 @@ const AnimatedCounter = ({ value, duration = 2, delay = 0 }) => {
                 });
                 return () => controls.stop();
             }, delay * 1000);
+            return () => clearTimeout(timeoutId);
         }
     }, [value, duration, isInView, delay]);
 
     return <span ref={ref}>{count}</span>;
 };
-
-const SkillBar = ({ name, level, index }) => (
-    <div className="mb-4">
-        <div className="flex justify-between mb-1">
-            <span className="text-sm font-medium" style={{ color: '#C4C4E0' }}>{name}</span>
-            <span className="text-sm font-bold" style={{ color: '#8B5CF6' }}>{level}%</span>
-        </div>
-        <div className="h-1.5 w-full rounded-full" style={{ background: 'rgba(255,255,255,0.05)' }}>
-            <motion.div
-                initial={{ width: 0 }}
-                whileInView={{ width: `${level}%` }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 1.2, delay: 0.1 * index, ease: "easeOut" }}
-                className="h-full rounded-full relative overflow-hidden"
-                style={{ background: 'linear-gradient(90deg, #8B5CF6, #06B6D4)' }}
-            >
-                <div className="absolute inset-0" style={{
-                    background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.25) 100%)'
-                }} />
-            </motion.div>
-        </div>
-    </div>
-);
 
 const About = () => {
     const { data: settingsData } = useSupabaseQuery('settings', {
@@ -53,27 +31,17 @@ const About = () => {
 
     const siteData = settingsData?.[0] || null;
 
-    const stats = [
-        { label: 'Projects Done', value: 10, suffix: '+' },
-        { label: 'Technologies', value: 12, suffix: '+' },
-        { label: 'Repositories', value: 20, suffix: '+' },
-        { label: 'Years Learning', value: 3, suffix: '+' },
-    ];
-
-    const skills = [
-        { name: 'Web Development', level: 90 },
-        { name: 'UI/UX Design', level: 80 },
-        { name: 'JavaScript', level: 85 },
-        { name: 'React & CSS', level: 90 },
-    ];
-
     return (
         <section id="about" className="py-24 relative overflow-hidden">
             {/* Section divider */}
             <div className="section-divider mb-0" />
 
-            <div className="container mx-auto px-6 md:px-12 relative z-10">
+            {/* Background floating decor */}
+            <div className="absolute top-0 right-0 w-64 h-64 -z-10 opacity-20 pointer-events-none">
+                <div className="w-full h-full rounded-full blur-[80px]" style={{ background: 'rgba(139,92,246,0.1)' }} />
+            </div>
 
+            <div className="container mx-auto px-6 md:px-12 relative z-10">
                 {/* Title */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -83,62 +51,63 @@ const About = () => {
                     className="text-center mb-16"
                 >
                     <p className="text-sm font-medium tracking-widest uppercase mb-3" style={{ color: '#8B5CF6' }}>
-                        Get To Know Me
+                        The Story Behind The Code
                     </p>
-                    <h2 className="text-3xl md:text-5xl font-bold text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                        About Me
+                    <h2 className="text-3xl md:text-5xl font-bold text-white mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                        Who Am I?
                     </h2>
+                    <div className="mx-auto w-20 h-1 rounded-full" style={{ background: 'linear-gradient(90deg, #8B5CF6, #06B6D4)' }} />
                 </motion.div>
 
                 <div className="grid md:grid-cols-2 gap-16 items-center">
-
-                    {/* Left - Image */}
+                    {/* Left - Image & Identity Accent */}
                     <motion.div
                         initial={{ opacity: 0, x: -50 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true, margin: "-100px" }}
                         transition={{ duration: 0.7, type: "spring", stiffness: 80 }}
-                        className="relative group"
+                        className="relative"
                     >
                         <div
-                            className="relative rounded-2xl overflow-hidden aspect-[3/4] max-w-sm mx-auto"
+                            className="relative rounded-2xl overflow-hidden aspect-[4/5] max-w-sm mx-auto group shadow-2xl"
                             style={{
-                                border: '1px solid rgba(139,92,246,0.2)',
-                                boxShadow: '0 0 40px rgba(139,92,246,0.15)',
+                                border: '1px solid rgba(139,92,246,0.15)',
+                                background: 'rgba(18,18,26,1)',
                             }}
                         >
                             <img
                                 src={siteData?.profile_image_url || "/profile.png"}
-                                alt={siteData?.site_name || "Profile"}
-                                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                                alt={siteData?.site_name || "Abdulahad Warraich"}
+                                className="w-full h-full object-cover grayscale brightness-90 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700 hover:scale-105"
                                 onError={(e) => {
-                                    e.target.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+                                    e.target.src = 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=800';
                                 }}
                             />
                             <div
-                                className="absolute inset-0"
+                                className="absolute inset-0 pointer-events-none"
                                 style={{
-                                    background: 'linear-gradient(to top, rgba(10,10,15,0.8) 0%, rgba(139,92,246,0.1) 50%, transparent 100%)'
+                                    background: 'linear-gradient(to top, rgba(10,10,15,0.9) 0%, rgba(139,92,246,0.05) 40%, transparent 100%)'
                                 }}
-                            />
-                            {/* Corner accent */}
-                            <div
-                                className="absolute top-0 left-0 w-16 h-16 rounded-br-full"
-                                style={{ background: 'rgba(139,92,246,0.2)' }}
                             />
                         </div>
 
-                        {/* Glow */}
-                        <div
-                            className="absolute inset-0 -z-10 rounded-2xl transition-all duration-700"
-                            style={{
-                                background: 'radial-gradient(ellipse at center, rgba(139,92,246,0.2), transparent 70%)',
-                                filter: 'blur(30px)',
-                            }}
-                        />
+                        {/* Floating Experience Badge */}
+                        <motion.div
+                            initial={{ scale: 0 }}
+                            whileInView={{ scale: 1 }}
+                            transition={{ delay: 0.5, type: "spring" }}
+                            className="absolute -bottom-6 -right-2 md:right-10 bg-white/5 backdrop-blur-xl border border-white/10 p-5 rounded-2xl shadow-2xl z-20"
+                        >
+                            <div className="flex items-center gap-3">
+                                <div className="text-3xl font-bold text-white leading-none">3+</div>
+                                <div className="text-[10px] leading-tight uppercase font-medium tracking-wider text-[#8B8BAA]">
+                                    Years of Dedicated<br />Digital Crafting
+                                </div>
+                            </div>
+                        </motion.div>
                     </motion.div>
 
-                    {/* Right - Text & Skills */}
+                    {/* Right - Text Identity */}
                     <motion.div
                         initial={{ opacity: 0, x: 50 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -147,67 +116,25 @@ const About = () => {
                         className="space-y-8"
                     >
                         <div>
-                            <h3
-                                className="text-2xl font-bold mb-4"
-                                style={{
-                                    background: 'linear-gradient(135deg, #8B5CF6, #06B6D4)',
-                                    WebkitBackgroundClip: 'text',
-                                    WebkitTextFillColor: 'transparent',
-                                }}
-                            >
-                                Skills & Technologies
+                            <h3 className="text-2xl md:text-3xl font-bold mb-6 text-white">
+                                Building <span style={{ color: '#8B5CF6' }}>Modern</span>, Scalable <br />
+                                <span className="text-white/40 italic font-light">& Digital Solutions</span>
                             </h3>
-                            <div className="space-y-4 text-sm md:text-base leading-relaxed" style={{ color: '#8B8BAA' }}>
-                                {siteData?.bio ? (
-                                    <p style={{ whiteSpace: 'pre-line' }}>{siteData.bio}</p>
-                                ) : (
-                                    <>
-                                        <p>
-                                            I'm a dedicated front-end developer with a focus on creating exceptional digital experiences.
-                                            My approach combines technical expertise with creative problem-solving.
-                                        </p>
-                                        <p>
-                                            I believe in crafting solutions that not only meet but exceed client expectations. I believe
-                                            in writing clean, maintainable code and creating intuitive user interfaces.
-                                        </p>
-                                    </>
-                                )}
+
+                            <div className="space-y-6 text-sm md:text-base leading-relaxed" style={{ color: '#8B8BAA' }}>
+                                <p>
+                                    I'm <span className="text-white font-medium">Abdulahad Warraich</span>, a Full Stack Developer and Computer Science student with a deep-rooted passion for creating intuitive, high-performance web experiences.
+                                </p>
+                                <p>
+                                    My approach is centered around **clean architecture** and **user-centric design**. I specialize in bridging the gap between sophisticated backends and pixel-perfect frontends, ensuring every application I build is both powerful and premium in feel.
+                                </p>
+                                <div className="bg-white/5 p-4 rounded-xl border border-white/10 italic">
+                                    "I don't just write code; I design scalable digital ecosystems that solve real-world problems while looking stunning."
+                                </div>
+                                <p>
+                                    Beyond the terminal, I'm fascinated by <span className="text-white">3D web technologies</span>, <span className="text-white">minimalist UI/UX</span>, and the future of **AI-driven development**. I'm constantly learning new ways to push the boundaries of what's possible on the web.
+                                </p>
                             </div>
-                        </div>
-
-                        {/* Skill bars */}
-                        <div>
-                            {skills.map((skill, idx) => (
-                                <SkillBar key={skill.name} name={skill.name} level={skill.level} index={idx} />
-                            ))}
-                        </div>
-
-                        {/* Stats */}
-                        <div className="grid grid-cols-2 gap-4 pt-4 border-t" style={{ borderColor: 'rgba(139,92,246,0.1)' }}>
-                            {stats.map((stat, i) => (
-                                <motion.div
-                                    key={stat.label}
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    whileInView={{ opacity: 1, scale: 1 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: i * 0.1, duration: 0.4 }}
-                                    className="text-center p-3 rounded-xl"
-                                    style={{ background: 'rgba(139,92,246,0.05)', border: '1px solid rgba(139,92,246,0.1)' }}
-                                >
-                                    <div
-                                        className="text-2xl md:text-3xl font-bold"
-                                        style={{
-                                            background: 'linear-gradient(135deg, #8B5CF6, #06B6D4)',
-                                            WebkitBackgroundClip: 'text',
-                                            WebkitTextFillColor: 'transparent',
-                                        }}
-                                    >
-                                        <AnimatedCounter value={stat.value} delay={i * 0.1} />
-                                        {stat.suffix}
-                                    </div>
-                                    <div className="text-xs mt-1" style={{ color: '#8B8BAA' }}>{stat.label}</div>
-                                </motion.div>
-                            ))}
                         </div>
                     </motion.div>
                 </div>

@@ -12,7 +12,7 @@ const EducationPage = () => {
         {
             degree: "BS Computer Science",
             institution: "University",
-            period: "2022 - Present",
+            period: "2023 - Present",
             description: "Focusing on software engineering, algorithms, and full-stack web development.",
             icon: <GraduationCap size={20} />,
             color: '#8B5CF6'

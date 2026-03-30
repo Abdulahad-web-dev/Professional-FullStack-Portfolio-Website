@@ -7,7 +7,7 @@ const experiences = [
     {
         title: "Computer Science Student",
         company: "University",
-        duration: "2022 – Present",
+        duration: "2023 – Present",
         description: "Developing a strong foundation in software engineering, algorithms, data structures, and system design through rigorous academic coursework and projects.",
         icon: <GraduationCap size={20} />,
         color: '#8B5CF6',

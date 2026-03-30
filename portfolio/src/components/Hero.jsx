@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
-import { Download, Mail, Github, Linkedin, ChevronDown } from 'lucide-react';
+import { Download, Mail, Github, Linkedin, ChevronDown, ArrowRight } from 'lucide-react';
 
 const TypewriterText = ({ texts }) => {
     const [currentText, setCurrentText] = useState('');
@@ -152,10 +152,10 @@ const Hero = ({ cvUrl, siteData }) => {
                             style={{ color: '#8B8BAA' }}
                         >
                             <TypewriterText texts={[
-                                'Building beautiful web experiences.',
-                                'Crafting interactive UI',
-                                'Turning ideas into reality.',
-                                'Full-Stack Developer & CS Student.',
+                                'Transforming Complex Ideas into Elegant Digital Realities.',
+                                'Crafting High-Performance Full-Stack Applications.',
+                                'Turning Pixel-Perfect Designs into Scalable Code.',
+                                'Architecture Student & Full-Stack Developer.',
                             ]} />
                         </motion.p>
 
@@ -171,52 +171,56 @@ const Hero = ({ cvUrl, siteData }) => {
                             for design excellence and clean code.
                         </motion.p>
 
-                        {/* Buttons */}
+                        {/* Buttons (CTAs) */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: 0.65 }}
                             className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 mb-8"
                         >
-                            <a href={cvUrl || "/resume.pdf"} target="_blank" rel="noopener noreferrer" download="Resume.pdf">
+                            <a href="#projects">
                                 <button
-                                    className="flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-white text-sm transition-all duration-300"
+                                    className="flex items-center gap-2 px-8 py-3.5 rounded-full font-bold text-white text-sm transition-all duration-300"
                                     style={{
-                                        background: 'linear-gradient(135deg, #8B5CF6, #6D28D9)',
-                                        boxShadow: '0 0 25px rgba(139,92,246,0.4)',
+                                        background: 'linear-gradient(135deg, #8B5CF6, #06B6D4)',
+                                        boxShadow: '0 8px 25px rgba(139,92,246,0.4)',
+                                        border: '1px solid rgba(255,255,255,0.1)'
                                     }}
                                     onMouseEnter={e => {
-                                        e.currentTarget.style.boxShadow = '0 0 40px rgba(139,92,246,0.7)';
-                                        e.currentTarget.style.transform = 'translateY(-2px)';
+                                        e.currentTarget.style.boxShadow = '0 0 40px rgba(139,92,246,0.7), 0 0 80px rgba(6,182,212,0.3)';
+                                        e.currentTarget.style.transform = 'translateY(-3px) scale(1.02)';
                                     }}
                                     onMouseLeave={e => {
-                                        e.currentTarget.style.boxShadow = '0 0 25px rgba(139,92,246,0.4)';
-                                        e.currentTarget.style.transform = 'translateY(0)';
+                                        e.currentTarget.style.boxShadow = '0 8px 25px rgba(139,92,246,0.4)';
+                                        e.currentTarget.style.transform = 'translateY(0) scale(1)';
                                     }}
                                 >
-                                    <Download size={16} />
-                                    Download Resume
+                                    Explore Projects
+                                    <ArrowRight size={18} />
                                 </button>
                             </a>
                             <a href="#contact">
                                 <button
-                                    className="flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-sm transition-all duration-300"
+                                    className="flex items-center gap-2 px-8 py-3.5 rounded-full font-bold text-sm transition-all duration-300"
                                     style={{
-                                        color: '#8B5CF6',
-                                        border: '1px solid rgba(139,92,246,0.4)',
+                                        color: '#A78BFA',
+                                        border: '1px solid rgba(139,92,246,0.3)',
                                         background: 'rgba(139,92,246,0.05)',
+                                        backdropFilter: 'blur(10px)'
                                     }}
                                     onMouseEnter={e => {
                                         e.currentTarget.style.background = 'rgba(139,92,246,0.15)';
-                                        e.currentTarget.style.transform = 'translateY(-2px)';
+                                        e.currentTarget.style.borderColor = '#8B5CF6';
+                                        e.currentTarget.style.transform = 'translateY(-3px) scale(1.02)';
                                     }}
                                     onMouseLeave={e => {
                                         e.currentTarget.style.background = 'rgba(139,92,246,0.05)';
-                                        e.currentTarget.style.transform = 'translateY(0)';
+                                        e.currentTarget.style.borderColor = 'rgba(139,92,246,0.3)';
+                                        e.currentTarget.style.transform = 'translateY(0) scale(1)';
                                     }}
                                 >
-                                    <Mail size={16} />
-                                    Contact Me
+                                    Get in Touch
+                                    <Mail size={18} />
                                 </button>
                             </a>
                         </motion.div>

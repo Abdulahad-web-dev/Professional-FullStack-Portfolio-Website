@@ -125,6 +125,29 @@ const About = () => {
                                 <p>
                                     I'm <span className="text-white font-medium">Abdulahad Warraich</span>, a Full Stack Developer and Computer Science student with a deep-rooted passion for creating intuitive, high-performance web experiences.
                                 </p>
+                                
+                                {/* Step 5 - Proof Stats Row */}
+                                <div className="grid grid-cols-3 gap-4 py-6 border-y border-white/5 my-8">
+                                    <div className="text-center">
+                                        <div className="text-2xl md:text-3xl font-bold text-white mb-1">
+                                            <AnimatedCounter value={15} />+
+                                        </div>
+                                        <div className="text-[10px] uppercase tracking-widest font-bold text-[#8B5CF6]">Projects</div>
+                                    </div>
+                                    <div className="text-center">
+                                        <div className="text-2xl md:text-3xl font-bold text-white mb-1">
+                                            <AnimatedCounter value={12} />+
+                                        </div>
+                                        <div className="text-[10px] uppercase tracking-widest font-bold text-[#06B6D4]">Tech Stack</div>
+                                    </div>
+                                    <div className="text-center">
+                                        <div className="text-2xl md:text-3xl font-bold text-white mb-1">
+                                            <AnimatedCounter value={500} />+
+                                        </div>
+                                        <div className="text-[10px] uppercase tracking-widest font-bold text-[#F59E0B]">Commits</div>
+                                    </div>
+                                </div>
+
                                 <p>
                                     My approach is centered around **clean architecture** and **user-centric design**. I specialize in bridging the gap between sophisticated backends and pixel-perfect frontends, ensuring every application I build is both powerful and premium in feel.
                                 </p>

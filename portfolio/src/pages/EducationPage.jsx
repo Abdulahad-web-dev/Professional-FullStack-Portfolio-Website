@@ -11,27 +11,39 @@ const EducationPage = () => {
     const staticEducation = [
         {
             degree: "BS Computer Science",
-            institution: "University Name",
-            period: "2022 - 2026",
-            description: "Major subjects, thesis, achievements...",
+            institution: "University",
+            period: "2022 - Present",
+            description: "Focusing on software engineering, algorithms, and full-stack web development.",
             icon: <GraduationCap size={20} />,
             color: '#8B5CF6'
         },
         {
-            degree: "Intermediate in Pre-Engineering",
-            institution: "College Name",
+            degree: "FSc Pre-Engineering",
+            institution: "APS Khanewal",
             period: "2020 - 2022",
-            description: "High grades in core sciences",
+            description: "Completed higher secondary education with high grades in core sciences.",
             icon: <BookOpen size={20} />,
             color: '#06B6D4'
+        },
+        {
+            degree: "Matriculation",
+            institution: "APS Khanewal",
+            period: "2018 - 2020",
+            description: "Completed secondary education with excellent academic standing.",
+            icon: <Award size={20} />,
+            color: '#10B981'
         }
     ];
 
-    const displayData = educationData?.length > 0 ? educationData.map((ed, i) => ({
-        ...ed,
-        icon: i % 2 === 0 ? <GraduationCap size={20} /> : <BookOpen size={20} />,
-        color: i % 2 === 0 ? '#8B5CF6' : '#06B6D4'
-    })) : staticEducation;
+    const displayData = educationData?.length > 0 ? educationData.map((ed, i) => {
+        const icons = [<GraduationCap size={20} />, <BookOpen size={20} />, <Award size={20} />];
+        const colors = ['#8B5CF6', '#06B6D4', '#10B981'];
+        return {
+            ...ed,
+            icon: icons[i % icons.length],
+            color: colors[i % colors.length]
+        };
+    }) : staticEducation;
 
     return (
         <section id="education" className="py-24 relative overflow-hidden min-h-screen">

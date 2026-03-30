@@ -56,25 +56,44 @@ const ProjectCard = ({ project, index }) => (
         </div>
 
         {/* Content */}
-        <div className="p-5 flex-1 flex flex-col">
-            <h3 className="text-lg font-bold mb-2" style={{ color: '#F0F0FF' }}>{project.title}</h3>
-            <p className="text-sm leading-relaxed mb-5 flex-1" style={{ color: '#6B6B8A' }}>{project.description}</p>
+        <div className="p-6 flex-1 flex flex-col">
+            <div className="flex items-center gap-2 mb-3">
+                <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: project.color }} />
+                <h3 className="text-xl font-bold text-white tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{project.title}</h3>
+            </div>
+            
+            <p className="text-sm leading-relaxed mb-6 flex-1 italic" style={{ color: '#8B8BAA' }}>{project.description}</p>
+            
+            {/* Tech Labels (Step 5 - Technologies) */}
+            <div className="flex flex-wrap gap-2 mb-6">
+                {project.tags?.map(tag => (
+                    <span key={tag} className="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider" style={{
+                        background: 'rgba(255,255,255,0.03)',
+                        border: '1px solid rgba(255,255,255,0.06)',
+                        color: '#6B6B8A',
+                    }}>
+                        {tag}
+                    </span>
+                ))}
+            </div>
+
             <div className="flex items-center gap-3 mt-auto">
+                {/* Step 5 - GitHub Links */}
                 <a href={project.github || '#'} target="_blank" rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-medium transition-all duration-300"
-                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#8B8BAA' }}
-                    onMouseEnter={e => { e.currentTarget.style.background = `${project.color}15`; e.currentTarget.style.borderColor = `${project.color}40`; e.currentTarget.style.color = project.color; }}
-                    onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = '#8B8BAA'; }}
+                    className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300"
+                    style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', color: '#A78BFA' }}
+                    onMouseEnter={e => { e.currentTarget.style.background = 'rgba(139,92,246,0.1)'; e.currentTarget.style.borderColor = '#8B5CF6'; e.currentTarget.style.color = '#FFFFFF'; }}
+                    onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = '#A78BFA'; }}
                 >
-                    <Github size={15} /> Code
+                    <Github size={14} /> Source Code
                 </a>
                 <a href={project.demo || '#'} target="_blank" rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-medium text-white"
-                    style={{ background: `linear-gradient(135deg, ${project.color}, ${project.color}99)` }}
-                    onMouseEnter={e => { e.currentTarget.style.opacity = '0.85'; }}
-                    onMouseLeave={e => { e.currentTarget.style.opacity = '1'; }}
+                    className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-bold uppercase tracking-widest text-white transition-all duration-300"
+                    style={{ background: 'linear-gradient(135deg, #8B5CF6, #06B6D4)', boxShadow: '0 4px 15px rgba(139,92,246,0.2)' }}
+                    onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 8px 25px rgba(139,92,246,0.4)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+                    onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 4px 15px rgba(139,92,246,0.2)'; e.currentTarget.style.transform = 'translateY(0)'; }}
                 >
-                    <ExternalLink size={15} /> Live Demo
+                    <ExternalLink size={14} /> View Live
                 </a>
             </div>
         </div>

@@ -18,10 +18,10 @@ const EducationPage = () => {
             color: '#8B5CF6'
         },
         {
-            degree: "FSc Pre-Engineering",
+            degree: "ICS (Intermediate in Computer Science)",
             institution: "APS Khanewal",
             period: "2020 - 2022",
-            description: "Completed higher secondary education with high grades in core sciences.",
+            description: "Completed higher secondary education with a focus on computer science.",
             icon: <BookOpen size={20} />,
             color: '#06B6D4'
         },

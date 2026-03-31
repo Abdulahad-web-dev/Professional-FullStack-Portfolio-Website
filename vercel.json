@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "public": true,
-  "rewrites": [
+  "builds": [
     {
-      "source": "/(.*)",
-      "destination": "portfolio/$1"
+      "src": "portfolio/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "dist" }
     }
-  ]
+  ],
+  "outputDirectory": "portfolio/dist"
 }

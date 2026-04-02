@@ -24,29 +24,29 @@ const ProjectCard = ({ project, index }) => (
     >
         {/* Image */}
         <div className="relative h-48 overflow-hidden">
-            {project.image ? (
+            {project.image_url ? (
                 <img
-                    src={project.image}
+                    src={project.image_url}
                     alt={project.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
             ) : (
                 <div
                     className="w-full h-full flex items-center justify-center text-4xl"
-                    style={{ background: `linear-gradient(135deg, ${project.color}20, rgba(10,10,15,0.9))` }}
+                    style={{ background: `linear-gradient(135deg, ${project.color || '#8B5CF6'}20, rgba(10,10,15,0.9))` }}
                 >
                     📁
                 </div>
             )}
             <div className="absolute inset-0" style={{
-                background: `linear-gradient(to top, rgba(10,10,15,0.9) 0%, ${project.color}20 50%, transparent 100%)`,
+                background: `linear-gradient(to top, rgba(10,10,15,0.9) 0%, ${project.color || '#8B5CF6'}20 50%, transparent 100%)`,
             }} />
             <div className="absolute bottom-3 left-3 flex flex-wrap gap-1">
-                {project.tags?.map(tag => (
+                {project.technologies?.map(tag => (
                     <span key={tag} className="px-2 py-0.5 rounded-full text-xs font-medium" style={{
                         background: 'rgba(10,10,15,0.8)',
-                        border: `1px solid ${project.color}40`,
-                        color: project.color,
+                        border: `1px solid ${project.color || '#8B5CF6'}40`,
+                        color: project.color || '#8B5CF6',
                         backdropFilter: 'blur(8px)',
                     }}>
                         {tag}
@@ -66,7 +66,7 @@ const ProjectCard = ({ project, index }) => (
             
             {/* Tech Labels (Step 5 - Technologies) */}
             <div className="flex flex-wrap gap-2 mb-6">
-                {project.tags?.map(tag => (
+                {(project.technologies || project.tags)?.map(tag => (
                     <span key={tag} className="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider" style={{
                         background: 'rgba(255,255,255,0.03)',
                         border: '1px solid rgba(255,255,255,0.06)',
@@ -79,21 +79,25 @@ const ProjectCard = ({ project, index }) => (
 
             <div className="flex items-center gap-3 mt-auto">
                 {/* Step 5 - GitHub Links */}
-                <a href={project.github || '#'} target="_blank" rel="noopener noreferrer"
+                <a href={project.github_url || project.github || '#'} target="_blank" rel="noopener noreferrer"
                     className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300"
                     style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', color: '#A78BFA' }}
                     onMouseEnter={e => { e.currentTarget.style.background = 'rgba(139,92,246,0.1)'; e.currentTarget.style.borderColor = '#8B5CF6'; e.currentTarget.style.color = '#FFFFFF'; }}
                     onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = '#A78BFA'; }}
                 >
-                    <Github size={14} /> Source Code
+                    <div className="flex items-center gap-2">
+                        <Github size={14} /> Source Code
+                    </div>
                 </a>
-                <a href={project.demo || '#'} target="_blank" rel="noopener noreferrer"
+                <a href={project.project_url || project.demo || '#'} target="_blank" rel="noopener noreferrer"
                     className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-bold uppercase tracking-widest text-white transition-all duration-300"
                     style={{ background: 'linear-gradient(135deg, #8B5CF6, #06B6D4)', boxShadow: '0 4px 15px rgba(139,92,246,0.2)' }}
                     onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 8px 25px rgba(139,92,246,0.4)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
                     onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 4px 15px rgba(139,92,246,0.2)'; e.currentTarget.style.transform = 'translateY(0)'; }}
                 >
-                    <ExternalLink size={14} /> View Live
+                    <div className="flex items-center gap-2">
+                        <ExternalLink size={14} /> View Live
+                    </div>
                 </a>
             </div>
         </div>
@@ -131,11 +135,11 @@ const ProjectModal = ({ project, onClose }) => {
                 </button>
 
                 <div className="relative h-64 sm:h-80 w-full overflow-hidden bg-black/50">
-                    {project.image ? (
-                        <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+                    {project.image_url ? (
+                        <img src={project.image_url} alt={project.title} className="w-full h-full object-cover" />
                     ) : (
                         <div className="w-full h-full flex items-center justify-center text-6xl"
-                            style={{ background: `linear-gradient(135deg, ${project.color}20, rgba(10,10,15,0.9))` }}>
+                            style={{ background: `linear-gradient(135deg, ${project.color || '#8B5CF6'}20, rgba(10,10,15,0.9))` }}>
                             📁
                         </div>
                     )}
@@ -144,9 +148,9 @@ const ProjectModal = ({ project, onClose }) => {
 
                 <div className="p-6 sm:p-10 -mt-20 relative z-10">
                     <div className="flex flex-wrap gap-2 mb-4">
-                        {project.tags?.map(tag => (
+                        {(project.technologies || project.tags)?.map(tag => (
                             <span key={tag} className="px-3 py-1 rounded-full text-xs font-medium backdrop-blur-md" style={{
-                                background: `${project.color}15`, border: `1px solid ${project.color}30`, color: project.color
+                                background: `${project.color || '#8B5CF6'}15`, border: `1px solid ${project.color || '#8B5CF6'}30`, color: project.color || '#8B5CF6'
                             }}>
                                 {tag}
                             </span>
@@ -157,14 +161,14 @@ const ProjectModal = ({ project, onClose }) => {
                     <p className="text-lg text-[#8B8BAA] mb-8 leading-relaxed">{project.description}</p>
 
                     {project.content && (
-                        <div className="mb-8 prose prose-invert max-w-none text-[#C4C4E0] whitespace-pre-wrap leading-relaxed border-l-2 pl-4" style={{ borderColor: `${project.color}50` }}>
+                        <div className="mb-8 prose prose-invert max-w-none text-[#C4C4E0] whitespace-pre-wrap leading-relaxed border-l-2 pl-4" style={{ borderColor: `${project.color || '#8B5CF6'}50` }}>
                             {project.content}
                         </div>
                     )}
 
                     <div className="flex flex-wrap items-center gap-4 pt-6 border-t border-white/10">
-                        {project.github && (
-                            <a href={project.github} target="_blank" rel="noopener noreferrer"
+                        {(project.github_url || project.github) && (
+                            <a href={project.github_url || project.github} target="_blank" rel="noopener noreferrer"
                                 className="flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all"
                                 style={{ background: 'rgba(255,255,255,0.05)', color: '#F0F0FF', border: '1px solid rgba(255,255,255,0.1)' }}
                                 onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)'; }}
@@ -173,10 +177,10 @@ const ProjectModal = ({ project, onClose }) => {
                                 <Github size={20} /> View Source Code
                             </a>
                         )}
-                        {project.demo && (
-                            <a href={project.demo} target="_blank" rel="noopener noreferrer"
+                        {(project.project_url || project.demo) && (
+                            <a href={project.project_url || project.demo} target="_blank" rel="noopener noreferrer"
                                 className="flex items-center gap-2 px-6 py-3 rounded-xl font-medium text-white transition-all shadow-lg hover:shadow-xl"
-                                style={{ background: `linear-gradient(135deg, ${project.color}, ${project.color}99)` }}
+                                style={{ background: `linear-gradient(135deg, ${project.color || '#8B5CF6'}, ${project.color || '#8B5CF6'}99)` }}
                             >
                                 <ExternalLink size={20} /> Live Application
                             </a>
@@ -191,7 +195,7 @@ const ProjectModal = ({ project, onClose }) => {
 /* ─── Projects Section ──────────────────────────────────────────────── */
 const Projects = () => {
     const { data: dbProjects, loading, error } = useSupabaseQuery('projects', {
-        order: { column: 'order', ascending: true }
+        order: { column: 'created_at', ascending: false }
     });
 
     const [selectedProject, setSelectedProject] = useState(null);

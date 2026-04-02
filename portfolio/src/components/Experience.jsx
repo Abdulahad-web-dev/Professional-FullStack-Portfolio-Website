@@ -40,7 +40,7 @@ const experiences = [
 
 const Experience = () => {
     const { data: dbExperiences, loading } = useSupabaseQuery('experience', {
-        order: { column: 'order', ascending: true }
+        order: { column: 'start_date', ascending: false }
     });
 
     // Map DB items to UI items and assign icons based on index
@@ -49,6 +49,9 @@ const Experience = () => {
 
     const displayData = dbExperiences?.length > 0 ? dbExperiences.map((exp, i) => ({
         ...exp,
+        title: exp.position || exp.title,
+        company: exp.company_name || exp.company,
+        duration: exp.start_date ? `${exp.start_date} – ${exp.end_date || 'Present'}` : exp.duration,
         icon: icons[i % icons.length],
         color: colors[i % colors.length]
     })) : experiences;

@@ -11,6 +11,7 @@ const ProjectModal = ({ project, onClose, onSave }) => {
         tags: '',
         github: '',
         demo: '',
+        content: '',
         color: '#8B5CF6',
         order: 0,
     });
@@ -26,6 +27,7 @@ const ProjectModal = ({ project, onClose, onSave }) => {
                 tags: Array.isArray(project.tags) ? project.tags.join(', ') : (project.tags || ''),
                 github: project.github || '',
                 demo: project.demo || '',
+                content: project.content || '',
                 color: project.color || '#8B5CF6',
                 order: project.order || 0,
             });
@@ -143,6 +145,19 @@ const ProjectModal = ({ project, onClose, onSave }) => {
                                     required placeholder="Brief description of your project..."
                                     rows={3}
                                     style={{ ...inputStyle, resize: 'vertical', minHeight: 80 }}
+                                    onFocus={e => e.target.style.borderColor = 'rgba(139,92,246,0.5)'}
+                                    onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.08)'}
+                                />
+                            </div>
+
+                            {/* Content */}
+                            <div style={{ gridColumn: '1 / -1' }}>
+                                <label style={labelStyle}>Full Project Content (Markdown supported)</label>
+                                <textarea
+                                    name="content" value={form.content} onChange={handleChange}
+                                    placeholder="Detailed content, features, challenges..."
+                                    rows={6}
+                                    style={{ ...inputStyle, resize: 'vertical', minHeight: 120 }}
                                     onFocus={e => e.target.style.borderColor = 'rgba(139,92,246,0.5)'}
                                     onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.08)'}
                                 />

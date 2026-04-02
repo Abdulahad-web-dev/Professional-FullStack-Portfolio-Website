@@ -109,11 +109,12 @@ const Skills = () => {
 
     if (skillsData) {
         skillsData.forEach(skill => {
-            const cat = skill.category === 'Frontend' ? 'Frontend'
-                : (skill.category === 'Backend' || skill.category === 'Database') ? 'Backend'
-                    : 'Tools';
+            const cat = skill.category || 'Tools';
             if (categoriesMap[cat]) {
                 categoriesMap[cat].skills.push({ name: skill.name, level: skill.level });
+            } else {
+                // Default to Tools if category doesn't match
+                categoriesMap['Tools'].skills.push({ name: skill.name, level: skill.level });
             }
         });
     }

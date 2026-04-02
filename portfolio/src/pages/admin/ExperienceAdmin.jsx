@@ -11,11 +11,11 @@ const ExperienceAdmin = () => {
     const [editingId, setEditingId] = useState(null);
 
     const [formData, setFormData] = useState({
-        position: '',
-        company_name: '',
-        start_date: '',
-        end_date: '',
-        description: ''
+        title: '',
+        company: '',
+        period: '',
+        description: '',
+        order: 0
     });
 
     useEffect(() => {
@@ -28,7 +28,7 @@ const ExperienceAdmin = () => {
             const { data, error } = await supabase
                 .from('experience')
                 .select('*')
-                .order('start_date', { ascending: false });
+                .order('order', { ascending: true });
 
             if (error) throw error;
             setExperiences(data || []);
@@ -42,20 +42,20 @@ const ExperienceAdmin = () => {
     const handleOpenForm = (experience = null) => {
         if (experience) {
             setFormData({
-                position: experience.position || '',
-                company_name: experience.company_name || '',
-                start_date: experience.start_date || '',
-                end_date: experience.end_date || '',
-                description: experience.description || ''
+                title: experience.title || '',
+                company: experience.company || '',
+                period: experience.period || '',
+                description: experience.description || '',
+                order: experience.order || 0
             });
-            setEditingId(experience.experience_id || experience.id);
+            setEditingId(experience.id);
         } else {
             setFormData({
-                position: '',
-                company_name: '',
-                start_date: '',
-                end_date: '',
-                description: ''
+                title: '',
+                company: '',
+                period: '',
+                description: '',
+                order: experiences.length
             });
             setEditingId(null);
         }
@@ -70,12 +70,11 @@ const ExperienceAdmin = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const idField = editingId && typeof editingId === 'string' && editingId.includes('-') ? 'experience_id' : 'id';
             if (editingId) {
                 const { error } = await supabase
                     .from('experience')
                     .update(formData)
-                    .eq(idField, editingId);
+                    .eq('id', editingId);
                 if (error) throw error;
             } else {
                 const { error } = await supabase
@@ -93,11 +92,10 @@ const ExperienceAdmin = () => {
     const handleDelete = async (id) => {
         if (window.confirm('Are you sure you want to delete this experience?')) {
             try {
-                const idField = id && typeof id === 'string' && id.includes('-') ? 'experience_id' : 'id';
                 const { error } = await supabase
                     .from('experience')
                     .delete()
-                    .eq(idField, id);
+                    .eq('id', id);
 
                 if (error) throw error;
                 fetchExperiences();
@@ -135,11 +133,11 @@ const ExperienceAdmin = () => {
                     {experiences.map((exp, index) => (
                         <div key={exp.id} className="group bg-[#12121A] p-5 rounded-2xl border border-white/5 hover:border-[#06B6D4]/30 transition-colors flex justify-between items-start gap-4">
                             <div className="flex-1">
-                                <h3 className="text-lg font-bold text-white">{exp.position}</h3>
+                                <h3 className="text-lg font-bold text-white">{exp.title}</h3>
                                 <div className="flex items-center gap-2 text-sm text-[#8B8BAA] mt-1 mb-3">
-                                    <span className="font-medium text-[#06B6D4]">{exp.company_name}</span>
+                                    <span className="font-medium text-[#06B6D4]">{exp.company}</span>
                                     <span>•</span>
-                                    <span>{exp.start_date} - {exp.end_date || 'Present'}</span>
+                                    <span>{exp.period}</span>
                                 </div>
                                 <p className="text-[#6B6B8A] text-sm leading-relaxed">{exp.description}</p>
                             </div>
@@ -200,8 +198,8 @@ const ExperienceAdmin = () => {
                                     <input
                                         type="text"
                                         required
-                                        value={formData.position}
-                                        onChange={(e) => setFormData({ ...formData, position: e.target.value })}
+                                        value={formData.title}
+                                        onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                                         className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-[#06B6D4] transition-colors"
                                         placeholder="e.g. Senior Frontend Developer"
                                     />
@@ -212,8 +210,8 @@ const ExperienceAdmin = () => {
                                     <input
                                         type="text"
                                         required
-                                        value={formData.company_name}
-                                        onChange={(e) => setFormData({ ...formData, company_name: e.target.value })}
+                                        value={formData.company}
+                                        onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                                         className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-[#06B6D4] transition-colors"
                                         placeholder="e.g. Tech Corp"
                                     />
@@ -221,24 +219,23 @@ const ExperienceAdmin = () => {
 
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-[#8B8BAA] mb-1.5">Start Date</label>
+                                        <label className="block text-sm font-medium text-[#8B8BAA] mb-1.5">Period</label>
                                         <input
                                             type="text"
                                             required
-                                            value={formData.start_date}
-                                            onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
+                                            value={formData.period}
+                                            onChange={(e) => setFormData({ ...formData, period: e.target.value })}
                                             className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-[#06B6D4] transition-colors"
-                                            placeholder="e.g. Jan 2021"
+                                            placeholder="e.g. Jan 2021 - Present"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-[#8B8BAA] mb-1.5">End Date</label>
+                                        <label className="block text-sm font-medium text-[#8B8BAA] mb-1.5">Sort Order</label>
                                         <input
-                                            type="text"
-                                            value={formData.end_date}
-                                            onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
+                                            type="number"
+                                            value={formData.order}
+                                            onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) || 0 })}
                                             className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-[#06B6D4] transition-colors"
-                                            placeholder="e.g. Present"
                                         />
                                     </div>
                                 </div>

@@ -24,9 +24,9 @@ const ProjectCard = ({ project, index }) => (
     >
         {/* Image */}
         <div className="relative h-48 overflow-hidden">
-            {project.image_url ? (
+            {project.image ? (
                 <img
-                    src={project.image_url}
+                    src={project.image}
                     alt={project.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
@@ -42,7 +42,7 @@ const ProjectCard = ({ project, index }) => (
                 background: `linear-gradient(to top, rgba(10,10,15,0.9) 0%, ${project.color || '#8B5CF6'}20 50%, transparent 100%)`,
             }} />
             <div className="absolute bottom-3 left-3 flex flex-wrap gap-1">
-                {project.technologies?.map(tag => (
+                {project.tags?.map(tag => (
                     <span key={tag} className="px-2 py-0.5 rounded-full text-xs font-medium" style={{
                         background: 'rgba(10,10,15,0.8)',
                         border: `1px solid ${project.color || '#8B5CF6'}40`,
@@ -79,7 +79,7 @@ const ProjectCard = ({ project, index }) => (
 
             <div className="flex items-center gap-3 mt-auto">
                 {/* Step 5 - GitHub Links */}
-                <a href={project.github_url || project.github || '#'} target="_blank" rel="noopener noreferrer"
+                <a href={project.github || '#'} target="_blank" rel="noopener noreferrer"
                     className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300"
                     style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', color: '#A78BFA' }}
                     onMouseEnter={e => { e.currentTarget.style.background = 'rgba(139,92,246,0.1)'; e.currentTarget.style.borderColor = '#8B5CF6'; e.currentTarget.style.color = '#FFFFFF'; }}
@@ -89,7 +89,7 @@ const ProjectCard = ({ project, index }) => (
                         <Github size={14} /> Source Code
                     </div>
                 </a>
-                <a href={project.project_url || project.demo || '#'} target="_blank" rel="noopener noreferrer"
+                <a href={project.demo || '#'} target="_blank" rel="noopener noreferrer"
                     className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-bold uppercase tracking-widest text-white transition-all duration-300"
                     style={{ background: 'linear-gradient(135deg, #8B5CF6, #06B6D4)', boxShadow: '0 4px 15px rgba(139,92,246,0.2)' }}
                     onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 8px 25px rgba(139,92,246,0.4)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
@@ -148,7 +148,7 @@ const ProjectModal = ({ project, onClose }) => {
 
                 <div className="p-6 sm:p-10 -mt-20 relative z-10">
                     <div className="flex flex-wrap gap-2 mb-4">
-                        {(project.technologies || project.tags)?.map(tag => (
+                        {project.tags?.map(tag => (
                             <span key={tag} className="px-3 py-1 rounded-full text-xs font-medium backdrop-blur-md" style={{
                                 background: `${project.color || '#8B5CF6'}15`, border: `1px solid ${project.color || '#8B5CF6'}30`, color: project.color || '#8B5CF6'
                             }}>
@@ -167,8 +167,8 @@ const ProjectModal = ({ project, onClose }) => {
                     )}
 
                     <div className="flex flex-wrap items-center gap-4 pt-6 border-t border-white/10">
-                        {(project.github_url || project.github) && (
-                            <a href={project.github_url || project.github} target="_blank" rel="noopener noreferrer"
+                        {project.github && (
+                            <a href={project.github} target="_blank" rel="noopener noreferrer"
                                 className="flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all"
                                 style={{ background: 'rgba(255,255,255,0.05)', color: '#F0F0FF', border: '1px solid rgba(255,255,255,0.1)' }}
                                 onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)'; }}
@@ -177,8 +177,8 @@ const ProjectModal = ({ project, onClose }) => {
                                 <Github size={20} /> View Source Code
                             </a>
                         )}
-                        {(project.project_url || project.demo) && (
-                            <a href={project.project_url || project.demo} target="_blank" rel="noopener noreferrer"
+                        {project.demo && (
+                            <a href={project.demo} target="_blank" rel="noopener noreferrer"
                                 className="flex items-center gap-2 px-6 py-3 rounded-xl font-medium text-white transition-all shadow-lg hover:shadow-xl"
                                 style={{ background: `linear-gradient(135deg, ${project.color || '#8B5CF6'}, ${project.color || '#8B5CF6'}99)` }}
                             >

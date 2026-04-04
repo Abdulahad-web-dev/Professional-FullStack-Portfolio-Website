@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { GraduationCap, Award, BookOpen } from 'lucide-react';
 import { useSupabaseQuery } from '../hooks/useSupabaseQuery';
 
 const EducationPage = () => {
-    const { data: educationData, loading, error } = useSupabaseQuery('education', {
+    const { data: educationData, loading } = useSupabaseQuery('education', {
         order: { column: 'order', ascending: true }
     });
 
@@ -36,7 +36,7 @@ const EducationPage = () => {
     ];
 
     const displayData = educationData?.length > 0 ? educationData.map((ed, i) => {
-        const icons = [<GraduationCap size={20} />, <BookOpen size={20} />, <Award size={20} />];
+        const icons = [<GraduationCap key="grad" size={20} />, <BookOpen key="book" size={20} />, <Award key="award" size={20} />];
         const colors = ['#8B5CF6', '#06B6D4', '#10B981'];
         return {
             ...ed,

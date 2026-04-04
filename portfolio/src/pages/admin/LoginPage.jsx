@@ -10,7 +10,7 @@ const AdminLoginPage = () => {
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
-    const { signIn, signUp } = useAuth();
+    const { signIn } = useAuth();
     const navigate = useNavigate();
     const [success, setSuccess] = useState('');
 
@@ -31,20 +31,6 @@ const AdminLoginPage = () => {
         }
     };
 
-    const handleSignUp = async () => {
-        setIsLoading(true);
-        setError('');
-        setSuccess('');
-        try {
-            await signUp(email, password);
-            setSuccess('Account created! Please check your email for confirmation (if required) or try signing in.');
-        } catch (err) {
-            console.error('Signup error:', err);
-            setError(err.message || 'Failed to create account.');
-        } finally {
-            setIsLoading(false);
-        }
-    };
 
     const inputStyle = {
         width: '100%',

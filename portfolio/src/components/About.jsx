@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { motion, useInView, animate } from 'framer-motion';
 import { useSupabaseQuery } from '../hooks/useSupabaseQuery';
 
@@ -8,17 +8,21 @@ const AnimatedCounter = ({ value, duration = 2, delay = 0 }) => {
     const isInView = useInView(ref, { once: true, margin: "-100px" });
 
     useEffect(() => {
-        if (isInView) {
-            const timeoutId = setTimeout(() => {
-                const controls = animate(0, value, {
-                    duration,
-                    ease: "easeOut",
-                    onUpdate(val) { setCount(Math.floor(val)); }
-                });
-                return () => controls.stop();
-            }, delay * 1000);
-            return () => clearTimeout(timeoutId);
-        }
+        if (!isInView) return;
+
+        let controls;
+        const timeoutId = setTimeout(() => {
+            controls = animate(0, value, {
+                duration,
+                ease: "easeOut",
+                onUpdate(val) { setCount(Math.floor(val)); }
+            });
+        }, delay * 1000);
+
+        return () => {
+            clearTimeout(timeoutId);
+            if (controls) controls.stop();
+        };
     }, [value, duration, isInView, delay]);
 
     return <span ref={ref}>{count}</span>;
@@ -28,7 +32,6 @@ const About = () => {
     const { data: settingsData } = useSupabaseQuery('settings', {
         eq: { column: 'id', value: 1 }
     });
-
     const siteData = settingsData?.[0] || null;
 
     return (
@@ -123,7 +126,7 @@ const About = () => {
 
                             <div className="space-y-6 text-sm md:text-base leading-relaxed" style={{ color: '#8B8BAA' }}>
                                 <p>
-                                    I'm <span className="text-white font-medium">Abdulahad Warraich</span>, a Full Stack Developer and Computer Science student with a deep-rooted passion for creating intuitive, high-performance web experiences.
+                                    I&apos;m <span className="text-white font-medium">Abdulahad Warraich</span>, a Full Stack Developer and Computer Science student with a deep-rooted passion for creating intuitive, high-performance web experiences.
                                 </p>
                                 
                                 {/* Step 5 - Proof Stats Row */}
@@ -152,10 +155,10 @@ const About = () => {
                                     My approach is centered around **clean architecture** and **user-centric design**. I specialize in bridging the gap between sophisticated backends and pixel-perfect frontends, ensuring every application I build is both powerful and premium in feel.
                                 </p>
                                 <div className="bg-white/5 p-4 rounded-xl border border-white/10 italic">
-                                    "I don't just write code; I design scalable digital ecosystems that solve real-world problems while looking stunning."
+                                    &quot;I don&apos;t just write code; I design scalable digital ecosystems that solve real-world problems while looking stunning.&quot;
                                 </div>
                                 <p>
-                                    Beyond the terminal, I'm fascinated by <span className="text-white">3D web technologies</span>, <span className="text-white">minimalist UI/UX</span>, and the future of **AI-driven development**. I'm constantly learning new ways to push the boundaries of what's possible on the web.
+                                    Beyond the terminal, I&apos;m fascinated by <span className="text-white">3D web technologies</span>, <span className="text-white">minimalist UI/UX</span>, and the future of **AI-driven development**. I&apos;m constantly learning new ways to push the boundaries of what&apos;s possible on the web.
                                 </p>
                             </div>
                         </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const navLinks = [
     { name: 'Home', href: '#home' },
@@ -18,7 +18,7 @@ const Navbar = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [activeHash, setActiveHash] = useState('#home');
 
-    const location = useLocation();
+
 
     useEffect(() => {
         const handleScroll = () => {

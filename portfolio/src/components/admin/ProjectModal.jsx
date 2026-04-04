@@ -20,6 +20,7 @@ const ProjectModal = ({ project, onClose, onSave }) => {
 
     useEffect(() => {
         if (project) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setForm({
                 title: project.title || '',
                 description: project.description || '',

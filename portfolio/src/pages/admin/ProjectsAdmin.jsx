@@ -15,11 +15,10 @@ const ProjectsAdmin = () => {
     const [formData, setFormData] = useState({
         title: '',
         description: '',
-        image_url: '',
-        technologies: [],
-        github_url: '',
-        project_url: '',
-        featured: false
+        image: '',
+        tags: [],
+        github: '',
+        demo: ''
     });
 
     const [tagInput, setTagInput] = useState('');
@@ -34,7 +33,7 @@ const ProjectsAdmin = () => {
             const { data, error } = await supabase
                 .from('projects')
                 .select('*')
-                .order('order', { ascending: true });
+                .order('created_at', { ascending: false });
 
             if (error) throw error;
             setProjects(data || []);
@@ -50,22 +49,20 @@ const ProjectsAdmin = () => {
             setFormData({
                 title: project.title,
                 description: project.description,
-                image_url: project.image_url || '',
-                technologies: project.technologies || [],
-                github_url: project.github_url || '',
-                project_url: project.project_url || '',
-                featured: project.featured || false
+                image: project.image || '',
+                tags: project.tags || [],
+                github: project.github || '',
+                demo: project.demo || ''
             });
             setEditingId(project.id);
         } else {
             setFormData({
                 title: '',
                 description: '',
-                image_url: '',
-                technologies: [],
-                github_url: '',
-                project_url: '',
-                featured: false
+                image: '',
+                tags: [],
+                github: '',
+                demo: ''
             });
             setEditingId(null);
         }
@@ -102,7 +99,7 @@ const ProjectsAdmin = () => {
                 .from('portfolio')
                 .getPublicUrl(filePath);
 
-            setFormData(prev => ({ ...prev, image_url: data.publicUrl }));
+            setFormData(prev => ({ ...prev, image: data.publicUrl }));
 
         } catch (error) {
             alert('Error uploading image: ' + error.message);
@@ -117,10 +114,10 @@ const ProjectsAdmin = () => {
     const handleAddTag = (e) => {
         e.preventDefault();
         const tag = tagInput.trim();
-        if (tag && !formData.technologies.includes(tag)) {
+        if (tag && !formData.tags.includes(tag)) {
             setFormData(prev => ({
                 ...prev,
-                technologies: [...prev.technologies, tag]
+                tags: [...prev.tags, tag]
             }));
             setTagInput('');
         }
@@ -129,7 +126,7 @@ const ProjectsAdmin = () => {
     const handleRemoveTag = (tagToRemove) => {
         setFormData(prev => ({
             ...prev,
-            technologies: prev.technologies.filter(tag => tag !== tagToRemove)
+            tags: prev.tags.filter(tag => tag !== tagToRemove)
         }));
     };
 
@@ -200,21 +197,14 @@ const ProjectsAdmin = () => {
                         <div key={project.id} className="group bg-[#12121A] rounded-2xl border border-white/5 overflow-hidden hover:border-[#8B5CF6]/30 transition-colors flex flex-col">
             {/* Project Image Header */}
                             <div className="h-40 relative bg-[#1A1A24] overflow-hidden flex-shrink-0">
-                                {project.image_url ? (
-                                    <img src={project.image_url} alt={project.title} className="w-full h-full object-cover" />
+                                {project.image ? (
+                                    <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
                                 ) : (
                                     <div className="absolute inset-0 flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(139,92,246,0.2), #1A1A24)' }}>
                                         <ImageIcon size={32} className="opacity-50 text-[#8B5CF6]" />
                                     </div>
                                 )}
                                 <div className="absolute inset-0 bg-gradient-to-t from-[#12121A] to-transparent" />
-
-                                {/* Featured Badge */}
-                                {project.featured && (
-                                    <div className="absolute top-3 left-3 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#8B5CF6] text-white border border-[#8B5CF6]/50 shadow-lg">
-                                        Featured
-                                    </div>
-                                )}
 
                                 {/* Hover Actions */}
                                 <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -241,14 +231,14 @@ const ProjectsAdmin = () => {
                                 <p className="text-[#8B8BAA] text-sm line-clamp-2 mb-3">{project.description}</p>
 
                                 <div className="flex flex-wrap gap-1.5 mt-auto">
-                                    {project.technologies?.slice(0, 3).map(tag => (
+                                    {project.tags?.slice(0, 3).map(tag => (
                                         <span key={tag} className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-white/5 text-[#C4C4E0] border border-white/10">
                                             {tag}
                                         </span>
                                     ))}
-                                    {project.technologies?.length > 3 && (
+                                    {project.tags?.length > 3 && (
                                         <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-white/5 text-[#C4C4E0] border border-white/10">
-                                            +{project.technologies.length - 3}
+                                            +{project.tags.length - 3}
                                         </span>
                                     )}
                                 </div>
@@ -294,8 +284,8 @@ const ProjectsAdmin = () => {
                                     <label className="block text-sm font-medium text-[#8B8BAA] mb-1.5">Project Image</label>
                                     <div className="flex items-end gap-4">
                                         <div className="w-32 h-24 rounded-xl border border-white/10 overflow-hidden bg-[#1A1A24] relative flex-shrink-0">
-                                            {formData.image_url ? (
-                                                <img src={formData.image_url} alt="Preview" className="w-full h-full object-cover" />
+                                            {formData.image ? (
+                                                <img src={formData.image} alt="Preview" className="w-full h-full object-cover" />
                                             ) : (
                                                 <div className="absolute inset-0 flex items-center justify-center">
                                                     <ImageIcon size={24} className="text-[#6B6B8A]" />
@@ -306,8 +296,8 @@ const ProjectsAdmin = () => {
                                             <div className="flex gap-2">
                                                 <input
                                                     type="url"
-                                                    value={formData.image_url}
-                                                    onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+                                                    value={formData.image}
+                                                    onChange={(e) => setFormData({ ...formData, image: e.target.value })}
                                                     className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-[#8B5CF6] transition-colors"
                                                     placeholder="Or enter image URL directly"
                                                 />
@@ -333,8 +323,8 @@ const ProjectsAdmin = () => {
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div className="col-span-2 sm:col-span-1">
+                                <div className="grid grid-cols-1 gap-4">
+                                    <div className="col-span-1">
                                         <label className="block text-sm font-medium text-[#8B8BAA] mb-1.5">Project Title</label>
                                         <input
                                             type="text"
@@ -345,19 +335,38 @@ const ProjectsAdmin = () => {
                                             placeholder="e.g. E-Commerce Platform"
                                         />
                                     </div>
-                                    <div className="col-span-2 sm:col-span-1 flex items-end pb-2">
-                                        <label className="flex items-center gap-3 cursor-pointer group">
-                                            <div className="relative w-10 h-6 bg-white/10 rounded-full transition-colors group-hover:bg-white/20 border border-white/10">
-                                                <input
-                                                    type="checkbox"
-                                                    checked={formData.featured}
-                                                    onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
-                                                    className="sr-only"
-                                                />
-                                                <div className={`absolute top-1 left-1 w-4 h-4 rounded-full transition-all duration-300 ${formData.featured ? 'translate-x-4 bg-[#8B5CF6]' : 'bg-[#1A1A24]'}`} />
-                                            </div>
-                                            <span className="text-sm font-medium text-[#8B8BAA] group-hover:text-white transition-colors">Featured Project</span>
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-[#8B8BAA] mb-1.5">GitHub URL (Optional)</label>
+                                        <input
+                                            type="url"
+                                            value={formData.github}
+                                            onChange={(e) => setFormData({ ...formData, github: e.target.value })}
+                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-[#8B5CF6] transition-colors"
+                                            placeholder="https://github.com/..."
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-[#8B8BAA] mb-1.5 flex justify-between">
+                                            <span>Live Demo URL (Optional)</span>
+                                            {formData.demo && formData.demo.startsWith('http') && (
+                                                <span className="text-[#8B5CF6] text-xs">Auto-image enabled!</span>
+                                            )}
                                         </label>
+                                        <input
+                                            type="url"
+                                            value={formData.demo}
+                                            onChange={(e) => setFormData({ ...formData, demo: e.target.value })}
+                                            onBlur={() => {
+                                                if (formData.demo && formData.demo.startsWith('http') && !formData.image) {
+                                                    setFormData(prev => ({ ...prev, image: `https://image.thum.io/get/width/1200/crop/800/${formData.demo}` }));
+                                                }
+                                            }}
+                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-[#8B5CF6] transition-colors"
+                                            placeholder="https://..."
+                                        />
                                     </div>
                                 </div>
 
@@ -371,29 +380,6 @@ const ProjectsAdmin = () => {
                                         className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-[#8B5CF6] transition-colors resize-none"
                                         placeholder="A summary of the project..."
                                     />
-                                </div>
-
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label className="block text-sm font-medium text-[#8B8BAA] mb-1.5">GitHub URL (Optional)</label>
-                                        <input
-                                            type="url"
-                                            value={formData.github_url}
-                                            onChange={(e) => setFormData({ ...formData, github_url: e.target.value })}
-                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-[#8B5CF6] transition-colors"
-                                            placeholder="https://github.com/..."
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-medium text-[#8B8BAA] mb-1.5">Live Demo URL (Optional)</label>
-                                        <input
-                                            type="url"
-                                            value={formData.project_url}
-                                            onChange={(e) => setFormData({ ...formData, project_url: e.target.value })}
-                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-[#8B5CF6] transition-colors"
-                                            placeholder="https://..."
-                                        />
-                                    </div>
                                 </div>
 
                                 <div>
@@ -416,7 +402,7 @@ const ProjectsAdmin = () => {
                                         </button>
                                     </div>
                                     <div className="flex flex-wrap gap-2 p-3 bg-white/5 rounded-xl border border-white/5 min-h-[50px]">
-                                        {formData.technologies.map(tag => (
+                                        {formData.tags.map(tag => (
                                             <span key={tag} className="flex items-center gap-1.5 pl-3 pr-1.5 py-1 bg-white/10 text-white text-sm font-medium rounded-lg border border-white/10">
                                                 {tag}
                                                 <button
@@ -428,7 +414,7 @@ const ProjectsAdmin = () => {
                                                 </button>
                                             </span>
                                         ))}
-                                        {formData.technologies.length === 0 && (
+                                        {formData.tags.length === 0 && (
                                             <span className="text-sm text-[#6B6B8A] self-center pl-2">No tags added yet.</span>
                                         )}
                                     </div>

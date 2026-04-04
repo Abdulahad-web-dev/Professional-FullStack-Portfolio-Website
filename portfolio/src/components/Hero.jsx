@@ -39,7 +39,7 @@ const TypewriterText = ({ texts }) => {
     );
 };
 
-const Hero = ({ cvUrl, siteData }) => {
+const Hero = ({ siteData }) => {
     const { scrollY } = useScroll();
     const y1 = useTransform(scrollY, [0, 600], [0, 180]);
     const opacity = useTransform(scrollY, [0, 400], [1, 0]);
@@ -63,11 +63,7 @@ const Hero = ({ cvUrl, siteData }) => {
         mouseY.set(0);
     };
 
-    const defaultSocials = [
-        { icon: <Github size={18} />, href: 'https://github.com/Abdulahad-web-dev', label: 'GitHub' },
-        { icon: <Linkedin size={18} />, href: 'https://www.linkedin.com/in/abdulahad-warraich-b74499361?utm_source=share_via&utm_content=profile&utm_medium=member_android', label: 'LinkedIn' },
-        { icon: <Mail size={18} />, href: 'mailto:abdulahadwarraich.web@gmail.com', label: 'Email' },
-    ];
+
 
     const socials = siteData ? [
         { icon: <Github size={18} />, href: siteData.github_url || 'https://github.com/Abdulahad-web-dev', label: 'GitHub' },
@@ -118,7 +114,7 @@ const Hero = ({ cvUrl, siteData }) => {
                             className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 leading-tight"
                             style={{ fontFamily: "'Space Grotesk', sans-serif" }}
                         >
-                            Hi, I'm{' '}
+                            Hi, I&apos;m{' '}
                             <span
                                 style={{
                                     background: 'linear-gradient(135deg, #8B5CF6 0%, #06B6D4 60%, #8B5CF6 100%)',
@@ -178,7 +174,7 @@ const Hero = ({ cvUrl, siteData }) => {
                             transition={{ duration: 0.5, delay: 0.65 }}
                             className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 mb-8"
                         >
-                            <a href="#projects">
+                            <a href="/resume.pdf" download="Abdulahad_Resume.pdf">
                                 <button
                                     className="flex items-center gap-2 px-8 py-3.5 rounded-full font-bold text-white text-sm transition-all duration-300"
                                     style={{
@@ -195,8 +191,8 @@ const Hero = ({ cvUrl, siteData }) => {
                                         e.currentTarget.style.transform = 'translateY(0) scale(1)';
                                     }}
                                 >
-                                    Explore Projects
-                                    <ArrowRight size={18} />
+                                    Download Resume
+                                    <Download size={18} />
                                 </button>
                             </a>
                             <a href="#contact">
@@ -278,12 +274,12 @@ const Hero = ({ cvUrl, siteData }) => {
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.7, delay: 0.3, type: "spring", stiffness: 80 }}
-                        className="flex-1 flex justify-center md:justify-end relative"
+                        className="flex-1 flex justify-center md:justify-end relative md:-mt-20 lg:-mt-32"
                         style={{ perspective: 1000 }}
                     >
                         <motion.div
                             style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
-                            className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96"
+                            className="relative w-72 h-72 md:w-[400px] md:h-[400px] lg:w-[480px] lg:h-[480px]"
                         >
                             {/* Outer rotating ring */}
                             <div
@@ -303,7 +299,7 @@ const Hero = ({ cvUrl, siteData }) => {
                                             boxShadow: '0 0 10px rgba(139,92,246,0.8)',
                                             top: '50%',
                                             left: '50%',
-                                            transform: `rotate(${deg}deg) translateX(${window.innerWidth > 768 ? '190px' : '130px'}) translate(-50%, -50%)`,
+                                            transform: `rotate(${deg}deg) translateX(${window.innerWidth > 1024 ? '240px' : window.innerWidth > 768 ? '200px' : '144px'}) translate(-50%, -50%)`,
                                         }}
                                     />
                                 ))}

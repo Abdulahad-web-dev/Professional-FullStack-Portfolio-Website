@@ -133,7 +133,7 @@ const EducationAdmin = () => {
                 </div>
             ) : (
                 <div className="space-y-4">
-                    {education.map((edu, index) => (
+                    {education.map((edu) => (
                         <div key={edu.id} className="group bg-[#12121A] p-5 rounded-2xl border border-white/5 hover:border-[#10B981]/30 transition-colors flex justify-between items-start gap-4">
                             <div className="flex-1">
                                 <h3 className="text-lg font-bold text-white" style={{ color: edu.color || '#F0F0FF' }}>{edu.degree}</h3>

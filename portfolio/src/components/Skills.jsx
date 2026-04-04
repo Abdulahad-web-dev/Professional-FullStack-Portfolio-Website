@@ -61,11 +61,6 @@ const Skills = () => {
         order: { column: 'order', ascending: true }
     });
 
-    const { data: settingsData } = useSupabaseQuery('settings', {
-        eq: { column: 'id', value: 1 }
-    });
-
-    const siteData = settingsData?.[0] || null;
 
     // Core technologies for the moving marquee
     const marqueeSkills = [
@@ -295,7 +290,7 @@ const Skills = () => {
                 )}
             </div>
 
-            <style jsx>{`
+            <style>{`
                 .mask-fade-sides {
                     mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
                     -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);

@@ -49,7 +49,7 @@ const Footer = () => {
                             </span>
                         </a>
                         <p className="text-sm leading-relaxed mb-6" style={{ color: '#6B6B8A' }}>
-                            Creating highly impactful websites that look beautiful. I'm building
+                            Creating highly impactful websites that look beautiful. I&apos;m building
                             something extraordinary every single day.
                         </p>
                         <div className="flex gap-3">

@@ -107,7 +107,7 @@ const Contact = () => {
                         Contact Me
                     </h2>
                     <p className="mt-4 text-sm" style={{ color: '#8B8BAA' }}>
-                        Let's discuss your next project or just say hello
+                        Let&apos;s discuss your next project or just say hello
                     </p>
                     <div className="mt-4 mx-auto w-16 h-0.5 rounded-full" style={{ background: 'linear-gradient(90deg, #8B5CF6, #06B6D4)' }} />
                 </motion.div>
@@ -123,17 +123,17 @@ const Contact = () => {
                         className="md:col-span-2 space-y-6"
                     >
                         <div>
-                            <h3 className="text-xl font-bold text-white mb-3">Let's Work Together</h3>
+                            <h3 className="text-xl font-bold text-white mb-3">Let&apos;s Work Together</h3>
                             <p className="text-sm leading-relaxed" style={{ color: '#8B8BAA' }}>
-                                I'm always excited to work on creative projects or collaborate on challenging ideas.
-                                With my expertise in <strong>Skills & Technologies</strong>, let's build something amazing together.
+                                I&apos;m always excited to work on creative projects or collaborate on challenging ideas.
+                                With my expertise in <strong>Skills & Technologies</strong>, Let&apos;s build something amazing together.
                             </p>
                         </div>
 
                         <div className="space-y-3">
-                            {contactInfo.map((item) => (
+                            {contactInfo.map((item, i) => (
                                 <motion.div
-                                    key={item.label}
+                                    key={item.label + i}
                                     whileHover={{ x: 5 }}
                                     className="flex items-center gap-4 p-3 rounded-xl transition-all duration-300 cursor-pointer group"
                                     style={{ background: 'rgba(18,18,26,0.6)', border: '1px solid rgba(255,255,255,0.04)' }}
@@ -170,9 +170,9 @@ const Contact = () => {
                         <div>
                             <p className="text-xs uppercase tracking-widest mb-3" style={{ color: '#6B6B8A' }}>Follow Me</p>
                             <div className="flex gap-3">
-                                {socials.map((social) => (
+                                {socials.map((social, i) => (
                                     <motion.a
-                                        key={social.label}
+                                        key={social.label + i}
                                         href={social.href}
                                         target="_blank"
                                         rel="noopener noreferrer"
@@ -237,7 +237,7 @@ const Contact = () => {
                                         </motion.div>
                                         <h4 className="text-xl font-bold text-white mb-2">Message Sent!</h4>
                                         <p className="text-sm text-center px-6" style={{ color: '#8B8BAA' }}>
-                                            Thank you for reaching out. I'll get back to you soon.
+                                            Thank you for reaching out. I&apos;ll get back to you soon.
                                         </p>
                                     </motion.div>
                                 )}

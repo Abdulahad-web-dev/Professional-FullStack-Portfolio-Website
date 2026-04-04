@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Github, ExternalLink, Loader, X } from 'lucide-react';
+import { Github, ExternalLink, X } from 'lucide-react';
 import { useSupabaseQuery } from '../hooks/useSupabaseQuery';
 
 const DEFAULT_COLORS = ['#8B5CF6', '#06B6D4', '#10B981', '#F59E0B', '#EF4444', '#EC4899', '#3B82F6'];
@@ -42,8 +42,8 @@ const ProjectCard = ({ project, index }) => (
                 background: `linear-gradient(to top, rgba(10,10,15,0.9) 0%, ${project.color || '#8B5CF6'}20 50%, transparent 100%)`,
             }} />
             <div className="absolute bottom-3 left-3 flex flex-wrap gap-1">
-                {project.tags?.map(tag => (
-                    <span key={tag} className="px-2 py-0.5 rounded-full text-xs font-medium" style={{
+                {project.tags?.map((tag, i) => (
+                    <span key={tag + i} className="px-2 py-0.5 rounded-full text-xs font-medium" style={{
                         background: 'rgba(10,10,15,0.8)',
                         border: `1px solid ${project.color || '#8B5CF6'}40`,
                         color: project.color || '#8B5CF6',
@@ -66,8 +66,8 @@ const ProjectCard = ({ project, index }) => (
             
             {/* Tech Labels (Step 5 - Technologies) */}
             <div className="flex flex-wrap gap-2 mb-6">
-                {(project.technologies || project.tags)?.map(tag => (
-                    <span key={tag} className="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider" style={{
+                {(project.technologies || project.tags)?.map((tag, i) => (
+                    <span key={tag + i} className="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider" style={{
                         background: 'rgba(255,255,255,0.03)',
                         border: '1px solid rgba(255,255,255,0.06)',
                         color: '#6B6B8A',
@@ -148,8 +148,8 @@ const ProjectModal = ({ project, onClose }) => {
 
                 <div className="p-6 sm:p-10 -mt-20 relative z-10">
                     <div className="flex flex-wrap gap-2 mb-4">
-                        {project.tags?.map(tag => (
-                            <span key={tag} className="px-3 py-1 rounded-full text-xs font-medium backdrop-blur-md" style={{
+                        {project.tags?.map((tag, i) => (
+                            <span key={tag + i} className="px-3 py-1 rounded-full text-xs font-medium backdrop-blur-md" style={{
                                 background: `${project.color || '#8B5CF6'}15`, border: `1px solid ${project.color || '#8B5CF6'}30`, color: project.color || '#8B5CF6'
                             }}>
                                 {tag}
@@ -237,7 +237,7 @@ const Projects = () => {
                 {/* Loading */}
                 {loading && (
                     <div className="flex flex-col items-center justify-center py-20" style={{ color: '#6B6B8A' }}>
-                        <Loader size={32} color="#8B5CF6" style={{ animation: 'spin 1s linear infinite', marginBottom: 12 }} />
+                        <div className="w-8 h-8 border-4 border-[#8B5CF6] border-t-transparent rounded-full animate-spin mb-3"></div>
                         <p style={{ fontSize: 14 }}>Loading projects…</p>
                     </div>
                 )}

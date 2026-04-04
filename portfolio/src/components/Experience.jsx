@@ -44,7 +44,7 @@ const Experience = () => {
     });
 
     // Map DB items to UI items and assign icons based on index
-    const icons = [<Code2 size={20} />, <Database size={20} />, <Bot size={20} />, <GraduationCap size={20} />];
+    const icons = [<Code2 key="code" size={20} />, <Database key="db" size={20} />, <Bot key="bot" size={20} />, <GraduationCap key="grad" size={20} />];
     const colors = ['#06B6D4', '#10B981', '#F59E0B', '#8B5CF6'];
 
     const displayData = dbExperiences?.length > 0 ? dbExperiences.map((exp, i) => ({
@@ -88,7 +88,7 @@ const Experience = () => {
                         </div>
                     ) : displayData.map((exp, index) => (
                         <motion.div
-                            key={exp.title}
+                            key={exp.title + index}
                             initial={{ opacity: 0, x: index % 2 === 0 ? -40 : 40 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true, margin: "-80px" }}

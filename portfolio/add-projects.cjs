@@ -36,7 +36,7 @@ const projects = [
 async function addProjects() {
     console.log("Pushing projects to Supabase...");
     try {
-        const { data, error } = await supabase.from('projects').upsert(projects, { onConflict: 'title' });
+        const { error } = await supabase.from('projects').upsert(projects, { onConflict: 'title' });
 
         if (error) {
             console.error("Supabase Error:", error.message);

@@ -35,7 +35,7 @@ async function addProjects() {
     ];
 
     try {
-        const { data, error } = await supabase.from('projects').insert(projects);
+        const { error } = await supabase.from('projects').insert(projects);
 
         if (error) {
             console.error("Supabase Error adding projects:", error.message);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { supabase } from '../../lib/supabase';
 import { useSupabaseQuery } from '../../hooks/useSupabaseQuery';
 import { Trash2 } from 'lucide-react';

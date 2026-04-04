@@ -130,7 +130,7 @@ const ExperienceAdmin = () => {
                 </div>
             ) : (
                 <div className="space-y-4">
-                    {experiences.map((exp, index) => (
+                    {experiences.map((exp) => (
                         <div key={exp.id} className="group bg-[#12121A] p-5 rounded-2xl border border-white/5 hover:border-[#06B6D4]/30 transition-colors flex justify-between items-start gap-4">
                             <div className="flex-1">
                                 <h3 className="text-lg font-bold text-white">{exp.title}</h3>

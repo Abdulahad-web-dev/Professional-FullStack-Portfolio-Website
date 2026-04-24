@@ -3,6 +3,47 @@ import { supabase } from '../../lib/supabase';
 import { Plus, Edit2, Trash2, X, Check, Loader, Upload, Image as ImageIcon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+const fileToDataUrl = (file) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(new Error('Could not read the selected file.'));
+    reader.readAsDataURL(file);
+});
+
+const normalizeImageFile = (file) => new Promise((resolve, reject) => {
+    const imageUrl = URL.createObjectURL(file);
+    const image = new Image();
+
+    image.onload = () => {
+        const maxWidth = 1600;
+        const scale = image.width > maxWidth ? maxWidth / image.width : 1;
+        const canvas = document.createElement('canvas');
+
+        canvas.width = Math.round(image.width * scale);
+        canvas.height = Math.round(image.height * scale);
+
+        const context = canvas.getContext('2d');
+        if (!context) {
+            URL.revokeObjectURL(imageUrl);
+            reject(new Error('Could not prepare the selected image.'));
+            return;
+        }
+
+        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+        const optimizedDataUrl = canvas.toDataURL('image/jpeg', 0.86);
+
+        URL.revokeObjectURL(imageUrl);
+        resolve(optimizedDataUrl);
+    };
+
+    image.onerror = () => {
+        URL.revokeObjectURL(imageUrl);
+        reject(new Error('Selected file is not a valid image.'));
+    };
+
+    image.src = imageUrl;
+});
+
 const ProjectsAdmin = () => {
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -10,6 +51,7 @@ const ProjectsAdmin = () => {
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [editingId, setEditingId] = useState(null);
     const [uploading, setUploading] = useState(false);
+    const [uploadMessage, setUploadMessage] = useState('');
     const fileInputRef = useRef(null);
 
     const [formData, setFormData] = useState({
@@ -67,12 +109,14 @@ const ProjectsAdmin = () => {
             setEditingId(null);
         }
         setTagInput('');
+        setUploadMessage('');
         setIsFormOpen(true);
     };
 
     const handleCloseForm = () => {
         setIsFormOpen(false);
         setEditingId(null);
+        setUploadMessage('');
     };
 
     const handleImageUpload = async (e) => {
@@ -80,7 +124,12 @@ const ProjectsAdmin = () => {
             if (!e.target.files || e.target.files.length === 0) return;
 
             const file = e.target.files[0];
+            if (!file.type.startsWith('image/')) {
+                throw new Error('Please select a valid image file.');
+            }
+
             setUploading(true);
+            setUploadMessage('');
 
             // Create a unique file name
             const fileExt = file.name.split('.').pop();
@@ -92,7 +141,12 @@ const ProjectsAdmin = () => {
                 .from('portfolio')
                 .upload(filePath, file);
 
-            if (uploadError) throw uploadError;
+            if (uploadError) {
+                const fallbackImage = await normalizeImageFile(file);
+                setFormData(prev => ({ ...prev, image: fallbackImage }));
+                setUploadMessage('Storage upload unavailable tha, is liye image local embedded format mein save ho gayi.');
+                return;
+            }
 
             // Get the public URL
             const { data } = supabase.storage
@@ -100,8 +154,21 @@ const ProjectsAdmin = () => {
                 .getPublicUrl(filePath);
 
             setFormData(prev => ({ ...prev, image: data.publicUrl }));
+            setUploadMessage('Image successfully upload ho gayi.');
 
         } catch (error) {
+            try {
+                if (e.target.files?.[0]) {
+                    const fallbackImage = await fileToDataUrl(e.target.files[0]);
+                    setFormData(prev => ({ ...prev, image: fallbackImage }));
+                    setUploadMessage('Direct upload fail hua, lekin image local embedded format mein attach ho gayi.');
+                    return;
+                }
+            } catch (fallbackError) {
+                alert('Error uploading image: ' + fallbackError.message);
+                return;
+            }
+
             alert('Error uploading image: ' + error.message);
         } finally {
             setUploading(false);
@@ -318,7 +385,10 @@ const ProjectsAdmin = () => {
                                                     className="hidden"
                                                 />
                                             </div>
-                                            <p className="text-xs text-[#6B6B8A]">16:9 aspect ratio recommended. Uploads go directly to Supabase Storage.</p>
+                                            <p className="text-xs text-[#6B6B8A]">16:9 aspect ratio recommended. Agar storage upload fail ho to image direct project record ke andar save ho jayegi.</p>
+                                            {uploadMessage && (
+                                                <p className="text-xs text-[#A78BFA]">{uploadMessage}</p>
+                                            )}
                                         </div>
                                     </div>
                                 </div>

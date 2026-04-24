@@ -82,6 +82,7 @@ const ProjectCard = ({ project, index }) => (
                 <a href={project.github || '#'} target="_blank" rel="noopener noreferrer"
                     className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300"
                     style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', color: '#A78BFA' }}
+                    onClick={(event) => event.stopPropagation()}
                     onMouseEnter={e => { e.currentTarget.style.background = 'rgba(139,92,246,0.1)'; e.currentTarget.style.borderColor = '#8B5CF6'; e.currentTarget.style.color = '#FFFFFF'; }}
                     onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = '#A78BFA'; }}
                 >
@@ -92,6 +93,7 @@ const ProjectCard = ({ project, index }) => (
                 <a href={project.demo || '#'} target="_blank" rel="noopener noreferrer"
                     className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-bold uppercase tracking-widest text-white transition-all duration-300"
                     style={{ background: 'linear-gradient(135deg, #8B5CF6, #06B6D4)', boxShadow: '0 4px 15px rgba(139,92,246,0.2)' }}
+                    onClick={(event) => event.stopPropagation()}
                     onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 8px 25px rgba(139,92,246,0.4)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
                     onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 4px 15px rgba(139,92,246,0.2)'; e.currentTarget.style.transform = 'translateY(0)'; }}
                 >
@@ -135,8 +137,8 @@ const ProjectModal = ({ project, onClose }) => {
                 </button>
 
                 <div className="relative h-64 sm:h-80 w-full overflow-hidden bg-black/50">
-                    {project.image_url ? (
-                        <img src={project.image_url} alt={project.title} className="w-full h-full object-cover" />
+                    {project.image ? (
+                        <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
                     ) : (
                         <div className="w-full h-full flex items-center justify-center text-6xl"
                             style={{ background: `linear-gradient(135deg, ${project.color || '#8B5CF6'}20, rgba(10,10,15,0.9))` }}>

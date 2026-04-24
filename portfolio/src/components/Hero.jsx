@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
 import { Download, Mail, Github, Linkedin, ChevronDown, ArrowRight } from 'lucide-react';
+import HeroParticles from './ui/HeroParticles';
 
 const TypewriterText = ({ texts }) => {
     const [currentText, setCurrentText] = useState('');
@@ -77,6 +78,7 @@ const Hero = ({ siteData }) => {
 
     return (
         <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+            <HeroParticles />
 
             {/* Content */}
             <div className="container mx-auto px-6 md:px-12 relative z-10">
